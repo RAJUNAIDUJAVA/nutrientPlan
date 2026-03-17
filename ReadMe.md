@@ -9,3 +9,21 @@ docker build -t nut-docker.jar .
 to run the image we can give comand like
 
 docker run -p 8085:8081 nut-docker.jar
+
+now we need to understand how we can push to the docker hub
+docker tag nut-docker.jar  rajunaidu48/nut-docker.jar need to create a image with username
+docker push rajunaidu48/nut-docker.jar
+
+now if we want to run the image which available in docker hub
+with below command we can pull the image
+docker pull rajunaidu48/nut-docker.jar
+
+flow:
+create a jar file using mvn clean install
+then create a image using docker build -t nut-docker.jar
+if we want to run locally instead of docker hub we can give command like docker run -p 8085:8081 nut-docker.jar
+if we want to push to the docker hub then we can give command like docker push rajunaidu48/nut-docker.jar (before that need to login for docker hub)
+if we want to pull we can use command docker pull rajunaidu48/nut-docker.jar
+once image was pulled to the system we can run the application by using docker run -p 8088:8081 rajunaidu48/nut-docker.jar
+
+
