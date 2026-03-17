@@ -2,7 +2,6 @@ package com.dnapass.training;
 
 import com.dnapass.training.controller.NutrientPlanController;
 import com.dnapass.training.entity.NutrientPlan;
-import com.dnapass.training.service.DownstreamService;
 import com.dnapass.training.service.NutrientPlanService;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,8 +40,6 @@ public class NutrientPlanControllerTest {
     @MockitoBean
     private NutrientPlanService service;
 
-    @MockitoBean
-    private DownstreamService downstreamService;
 
     private NutrientPlan samplePlan;
     @Before
@@ -201,15 +198,6 @@ public class NutrientPlanControllerTest {
                 .andExpect(content().json("[]"));
     }
 
-    @Test
-    public void testGetDetails_ReturnsRaju() throws Exception{
-        when(downstreamService.getData()).thenReturn(Mono.just("Raju"));
-        mockMvc.perform(get("/getdetails")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-         
-               // .andExpect(content().string("Raju"));
-    }
 
 
 

@@ -1,7 +1,7 @@
 package com.dnapass.training.controller;
 
 import com.dnapass.training.entity.NutrientPlan;
-import com.dnapass.training.service.DownstreamService;
+import com.dnapass.training.service.DownStreamService;
 import com.dnapass.training.service.NutrientPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class NutrientPlanController {
     NutrientPlanService service;
 
     @Autowired
-    DownstreamService downstreamService;
+    DownStreamService downstreamService;
 
 
     @PostMapping("/api/nutrient-plans")
@@ -37,7 +37,7 @@ public class NutrientPlanController {
         return ResponseEntity.ok(nutrientPlan);
     }
 
-    @GetMapping("api/nutrient-plans/type/{nutrientType}")
+        @GetMapping("api/nutrient-plans/type/{nutrientType}")
     public ResponseEntity<List<NutrientPlan>> getNutrientPlansByType(@PathVariable String nutrientType){
         System.out.println("call came to the controller");
         return ResponseEntity.ok(service.getNutrientPlansByType(nutrientType));
@@ -80,10 +80,8 @@ public class NutrientPlanController {
     }
 
     @GetMapping("/getdetails")
-    public Mono<ResponseEntity<String>> getDetails(){
-        return downstreamService.getData()
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public String getDetails(){
+        return "Called";
     }
 
 
