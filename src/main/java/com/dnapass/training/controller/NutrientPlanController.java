@@ -1,11 +1,14 @@
 package com.dnapass.training.controller;
 
 import com.dnapass.training.entity.NutrientPlan;
+import com.dnapass.training.service.DownstreamService;
 import com.dnapass.training.service.NutrientPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +18,9 @@ import java.util.Map;
 public class NutrientPlanController {
     @Autowired
     NutrientPlanService service;
+
+    @Autowired
+    DownstreamService downstreamService;
 
 
     @PostMapping("/api/nutrient-plans")
@@ -74,8 +80,10 @@ public class NutrientPlanController {
     }
 
     @GetMapping("/getdetails")
-    public ResponseEntity<String> getDetails(){
-        return ResponseEntity.ok("Raju");
+    public Mono<ResponseEntity<String>> getDetails(){
+        return downstreamService.getData()
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
 
