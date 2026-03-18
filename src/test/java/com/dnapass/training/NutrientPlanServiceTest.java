@@ -3,13 +3,12 @@ package com.dnapass.training;
 import com.dnapass.training.entity.NutrientPlan;
 import com.dnapass.training.repository.NutrientPlanRepository;
 import com.dnapass.training.service.NutrientPlanService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -22,15 +21,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class NutrientPlanServiceTest {
+@ExtendWith(MockitoExtension.class)
+class NutrientPlanServiceTest {
     @InjectMocks
     private NutrientPlanService service;
     @Mock
     private NutrientPlanRepository repo;
 
     private NutrientPlan samplePlan;
-    @Before
+    @BeforeEach
     public void setUp(){
         samplePlan = new NutrientPlan();
         samplePlan.setId(1L);
@@ -56,17 +55,17 @@ public class NutrientPlanServiceTest {
         verify(repo, times(1)).save(samplePlan);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateNutrientPlan_EndDateBeforeStartDate(){
         samplePlan.setEndDate(LocalDate.of(2025,9,1));
-        service.createNutrientPlan(samplePlan);
+        assertThrows(IllegalArgumentException.class, () -> service.createNutrientPlan(samplePlan));
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateNutrientPlan_InvalidCalories(){
         samplePlan.setEndDate(LocalDate.of(2025,9,1));
-        service.createNutrientPlan(samplePlan);
+        assertThrows(IllegalArgumentException.class, () -> service.createNutrientPlan(samplePlan));
     }
     @Test
     public void testUpdateNutrientPlan_Success(){
@@ -146,7 +145,6 @@ public class NutrientPlanServiceTest {
         assertTrue(result.isEmpty());
         verify(repo, times(1)).findActivePlansInDateRange(startDate,endDate);
 }
-
 
 
 

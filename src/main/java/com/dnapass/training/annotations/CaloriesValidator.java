@@ -1,7 +1,6 @@
 package com.dnapass.training.annotations;
 
 import jakarta.validation.Constraint;
-import org.hibernate.annotations.TargetEmbeddable;
 
 import java.lang.annotation.*;
 

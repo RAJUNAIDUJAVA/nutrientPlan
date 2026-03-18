@@ -3,19 +3,16 @@ package com.dnapass.training;
 import com.dnapass.training.controller.NutrientPlanController;
 import com.dnapass.training.entity.NutrientPlan;
 import com.dnapass.training.service.NutrientPlanService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -24,26 +21,25 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-@SpringBootTest
-@RunWith(SpringRunner.class)
+
 @WebMvcTest(NutrientPlanController.class)
-public class NutrientPlanControllerTest {
+@ExtendWith(MockitoExtension.class)
+class NutrientPlanControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @InjectMocks
     private NutrientPlanController controller;
-    @MockitoBean
+    @MockBean
     private NutrientPlanService service;
 
 
     private NutrientPlan samplePlan;
-    @Before
+    @BeforeEach
     public void setUp(){
         samplePlan = new NutrientPlan();
         samplePlan.setId(1L);
@@ -114,18 +110,6 @@ public class NutrientPlanControllerTest {
                 .andExpect(jsonPath("$[1].dailyCalories").value(1500));
     }
 
-    /*@Test
-    public void testGetNutrientPlansByCalorieRange_InvalidRange_ReturnsBadRequest() throws Exception{
-        mockMvc.perform(get("/api/nutrient-plans/calories")
-                .param("minCalories", "1000")
-                .param("maxCalories", "1600"))
-                .andExpect(status().isBadRequest());
-
-        mockMvc.perform(get("/api/nutrient-plans/calories")
-                .param("minCalories", "1000")
-                .param("maxCalories", "1600"))
-                .andExpect(status().isBadRequest());
-    }*/
     @Test
     public void testGetNutrientPlansByCalorieRange_Empty_Result_ReturnsOkWithEmptyList() throws Exception{
         when(service.getNutrientPlansByCalorieRange(1000,1200)).thenReturn(List.of());
@@ -177,13 +161,6 @@ public class NutrientPlanControllerTest {
                 .andExpect(jsonPath("$[0].name").value("Weight Loss Plan"))
                 .andExpect(jsonPath("$[1].dailyCalories").value(2200));
     }
-    /*@Test
-    public void testGetActiveDietPlansInDateRange_InvalidRange_ReturnsBadRequest() throws Exception{
-        mockMvc.perform(get("/api/nutrient-plans/active")
-                .param("startDate", "2025-12-31")
-                .param("endDate","2025-01-01"))
-                .andExpect(status().isBadRequest());
-    }*/
     @Test
     public void testGetActivePlansInDateRange_EmptyResult_ReturnsOkWithEmptyList() throws Exception{
         LocalDate startDate = LocalDate.of(2025,5,1);
@@ -198,9 +175,5 @@ public class NutrientPlanControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
-
-
-
-
 
 }
