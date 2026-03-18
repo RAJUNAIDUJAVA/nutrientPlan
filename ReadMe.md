@@ -27,3 +27,12 @@ if we want to pull we can use command docker pull rajunaidu48/nut-docker.jar
 once image was pulled to the system we can run the application by using docker run -p 8088:8081 rajunaidu48/nut-docker.jar
 
 
+how we can create pipeline using jennkins
+->  basically when we push the code to git , with help of jenkins we can create a build and will do required tests
+-> for that we need to integrate git with jenkins
+-> in jenkins we can create a new job and in that we can give git url and git credentials 
+jenkins username: rajunaidu48
+jenkins password: 1234567890
+
+
+
