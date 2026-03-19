@@ -34,5 +34,16 @@ how we can create pipeline using jennkins
 jenkins username: rajunaidu48
 jenkins password: 1234567890
 
+now with help of job we integrated git with jenkins by providing url and can able to see build results in jenkins
+
+now we want to understand how we can create a pipeline
+-> we have three types of pipelines 
+1.Build plugin pipeline -> for smaller tasks
+2.Declarative pipeline,scripted pipeline -> for bigger jobs like build, test, code coverage,deploy, coveragetest, code review ..integration test, load test....etc
+
+implementing build pipeline
+here we need to create individual jobs and we need to give run option like after completing the dev job QA job needs to run then production will run
+
+
 
 
